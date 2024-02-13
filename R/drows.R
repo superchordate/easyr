@@ -22,27 +22,29 @@ drows <- function(x, c, na = FALSE) {
 
   # get a matrix of values to check. matrices are faster than dataframes, rowSums in particular. 
   checkdt = as.matrix(dplyr::select_at(x, c))
-  checkdt = cbind(checkdt, 'dummy') # we need at least 2 columns, or checkdt = checkdt[-narows, ] will convert from matrix to vector.
+  checkdt = cbind(1:nrow(x), checkdt) # we need at least 2 columns, or checkdt = checkdt[-narows, ] will convert from matrix to vector.
+  names(checkdt)[1] = 'row'
 
   # remove NAs.
   if(!na){
-    narows = which(rowSums(is.na(checkdt)) > 0)  
+    narows = which(rowSums(is.na(checkdt[, -1])) > 0)  
     if(length(narows) > 0) checkdt = checkdt[-narows, ]
   }
   
   # get duplicates. 
-  duprows = which(duplicated(checkdt))
+  duprows = which(duplicated(checkdt[, -1]))
   if(length(duprows) == 0){
     cat('drows: No duplicates found.')
     return()
   }
 
   # return rows with duplicates.
-  dvals = which(paste0(checkdt) %in% paste0(checkdt[duprows]))
+  collapsed_vals = apply(checkdt[, -1], 1, paste, collapse = '')
+  dvals = which(collapsed_vals %in% collapsed_vals[duprows])
   toreturn = checkdt[dvals, ]
-  colnames(toreturn) = c(c, 'dummy')
+  colnames(toreturn)[1] = 'row'
 
-  toreturn = dplyr::select(dplyr::arrange_at(dplyr::as_tibble(toreturn), c), -dummy)
+  toreturn = dplyr::arrange_at(dplyr::as_tibble(toreturn), c)
   for(col in c) class(toreturn[[col]]) = class(x[[col]])
   
   return(toreturn)
