@@ -9,7 +9,7 @@ drows(x, c, na = FALSE)
 \arguments{
 \item{x}{Data frame.}
 
-\item{c}{Column as vector or string.}
+\item{c}{Column names as a character.}
 
 \item{na}{Consider multiple NAs as duplicates?}
 }
@@ -21,6 +21,6 @@ Pulls all rows with duplicates in a column, not just the duplicate row.
 Author: Bryce Chamberlain.
 }
 \examples{
-ddt = bindf( cars, utils::head( cars, 10 ) )
-drows( ddt, 'speed' )
+ddt = bindf(cars, utils::head(cars, 10)) # create duplicated data.
+drows(ddt, 'speed') # get the duplicated rows.
 }

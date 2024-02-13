@@ -4,7 +4,7 @@
 #' Author: Bryce Chamberlain.
 #' 
 #' @param x Data frame.
-#' @param c Column as vector or string.
+#' @param c Column names as a character.
 #' @param na Consider multiple NAs as duplicates?
 #' 
 #' @return Rows from the data frame in which the column is duplicated.
@@ -12,23 +12,39 @@
 #' @export
 #' 
 #' @examples 
-#' ddt = bindf( cars, utils::head( cars, 10 ) )
-#' drows( ddt, 'speed' )
-drows <- function( x, c, na = FALSE ) {
-  
-  # If a string was passed, get the column.
-  if( length(c) < nrow(x) && length(c) == 1 ){
-    if( c %ni% names(x) ) stop( glue::glue( 'Column [{c}] not found.' ) )
-    c = x[[c]]
+#' ddt = bindf(cars, utils::head(cars, 10)) # create duplicated data.
+#' drows(ddt, 'speed') # get the duplicated rows.
+drows <- function(x, c, na = FALSE) {
+
+  # validate inputs  
+  miscols = setdiff(c, names(x))
+  if(length(miscols) > 0) stop(glue::glue('Data missing columns: [{cc(miscols, sep = ", ")}]'))
+
+  # get a matrix of values to check. matrices are faster than dataframes, rowSums in particular. 
+  checkdt = as.matrix(dplyr::select_at(x, c))
+  checkdt = cbind(checkdt, 'dummy') # we need at least 2 columns, or checkdt = checkdt[-narows, ] will convert from matrix to vector.
+
+  # remove NAs.
+  if(!na){
+    narows = which(rowSums(is.na(checkdt)) > 0)  
+    if(length(narows) > 0) checkdt = checkdt[-narows, ]
   }
   
-  # Get duplicated columns, ignoring or including NAs.
-  if( na ){
-    rows = which( c %in% c[ duplicated(c) ] )
-  } else {
-    rows = which( !is.na(c) & c %in% c[ duplicated(c) ] )
+  # get duplicates. 
+  duprows = which(duplicated(checkdt))
+  if(length(duprows) == 0){
+    cat('drows: No duplicates found.')
+    return()
   }
+
+  # return rows with duplicates.
+  dvals = which(paste0(checkdt) %in% paste0(checkdt[duprows]))
+  toreturn = checkdt[dvals, ]
+  colnames(toreturn) = c(c, 'dummy')
+
+  toreturn = dplyr::select(dplyr::arrange_at(dplyr::as_tibble(toreturn), c), -dummy)
+  for(col in c) class(toreturn[[col]]) = class(x[[col]])
   
-  return( x[ rows, ] )
+  return(toreturn)
 
 }
