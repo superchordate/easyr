@@ -188,3 +188,12 @@ These data resources are also included.
 |nastrings|List of strings considered NA by easyr. Includes blank strings, "NA", excel errors, etc.|
 |states|Helpul dataset of U.S. State abbreviations and names.|
 |cblind|Charting colors optimized for and selected by colorblind individuals.|
+
+
+## Attribution & History
+
+easyr was originally open-sourced by Oliver Wyman Actuarial Consulting under the General Public License (GPL). Huge thanks to Oliver Wyman for supporting this project!
+
+In January 2024 Bryce Chamberlain, who contributed a large portion of the code and maintained the project from inception, parted ways with Oliver Wyman and was not given time to properly transition maintenance responsibilities. 
+
+As far as I am aware, the original easyr project is no longer being maintained either on CRAN or on GitHub. I have started this repository so that I can continue to maintain and improve this important project. 
