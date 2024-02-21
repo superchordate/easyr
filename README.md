@@ -2,27 +2,16 @@
 
 Helpful functions that make coding in R easier.
 
-**easyr makes difficult operations easy.** 
-
 ## Installation
 
-You can install the latest version available on CRAN:
+Install the latest version from github:
 
 ```r
-
-install.packages('easyr')
-require(easyr)
-
-```
-
-Or install the latest version from github:
-
-```r
-
 devtools::install_github( "superchordate/easyr" )
 require(easyr)
-
 ```
+
+There is also a version on CRAN, but it is no longer being maintained as far as I am aware.
 
 ## Getting Started
 
