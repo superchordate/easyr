@@ -15,7 +15,7 @@ There is also a version on CRAN, but it is no longer being maintained as far as 
 
 ## Getting Started
 
-Tutorial: https://www.kaggle.com/brycechamberlain/easyr-tutorial.
+Tutorial: https://colab.research.google.com/drive/1dlBcUoKcktdbDeRX_EL8F2Hr71N51jwV?usp=sharing.
 
 Here is what a project looks like using easyr:
 
