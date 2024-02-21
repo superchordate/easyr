@@ -28,18 +28,18 @@ begin()
 
 # read.any reads in your data regardless of format, with powerful typing to get numbers and dates.
 # use ?read.any to see the many options.
-dt = read.any( 'path/to/file.extension' )
+dt = read.any('path/to/file.extension')
 
 # let's look at a data dictionary to understand our data.
-View( dict( dt ) )
+View(atype(dict(dt)))
 
 # begin has already loaded dplyr and magrittr so you are ready to go.
 dt %<>% 
-  filter( !is.na(id) ) %>% 
-  mutate( newcol = oldcol1 + oldcol 2 )
+  filter(!is.na(id)) %>% 
+  mutate(newcol = oldcol1 + oldcol2)
 
 # use w to quickly write to out.csv'.
-w( dt )
+w(dt)
 
 ```
 
@@ -160,6 +160,7 @@ Help with reading and manipulating data.
 | sch | Search a data frame or vector. Attempts to replicate Excel search but with regex. |
 | short_dollars|	Converts numeric plot axis dollars and attaches K and divides by 1000.|
 | short_nums| Shortens axis numbering to thousands or millions and adds.|
+| similar_text | Search for strings that are similar. |
 | sumnum|Summarize all numeric columns in a dataset. |
 | tcol| Transpose operation that sets column names equal to a column in the original data.|
 
