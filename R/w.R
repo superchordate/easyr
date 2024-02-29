@@ -24,6 +24,6 @@ w <- function(x, filename = 'out', row.names = FALSE, na = ''){
   filename <- paste0(gsub( '[.][a-z]+$','', filename, ignore.case = TRUE), '.csv' ) 
   
   # use faster fwrite. 
-  data.table::easyr(x = x, file = filename, row.names = row.names, na = na)
+  data.table::fwrite(x = x, file = filename, row.names = row.names, na = na)
   
 }

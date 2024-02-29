@@ -19,17 +19,17 @@ b	2	z
 a		x
 a		y
 '))
-  expect = tibble(read.delim(text = 'col1	col2
-a	1
-a	1
+  expect = tibble(read.delim(text = 'row	col1	col2
+1	a	1
+2	a	1
 '))
   expect_equal(drows(dt, c('col1', 'col2')), expect)
   
-  expect = tibble(read.delim(text = 'col1	col2
-a	1
-a	1
-a	
-a	
+  expect = tibble(read.delim(text = 'row	col1	col2
+1	a	1
+2	a	1
+4	a	
+5	a	
 '))
   expect_equal(drows(dt, c('col1', 'col2'), na = TRUE), expect)
 

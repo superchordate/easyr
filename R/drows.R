@@ -45,6 +45,7 @@ drows <- function(x, c, na = FALSE) {
   colnames(toreturn)[1] = 'row'
 
   toreturn = dplyr::arrange_at(dplyr::as_tibble(toreturn), c)
+  toreturn$row = as.integer(toreturn$row)
   for(col in c) class(toreturn[[col]]) = class(x[[col]])
   
   return(toreturn)
