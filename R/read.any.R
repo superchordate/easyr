@@ -217,7 +217,7 @@ read.any <- function(
   #TODO: this approach will be slow becuase all tables are extracted but only one is read in.
   #  there is no option in pbi-tools to only extract one sheet. 
   #  ideally we'd give the user an option to read into a list to run this faster, similar to what we'd like to do with multiple excel sheet reads in one read.any call. 
-  #  see https://github.com/oliver-wyman-actuarial/easyr/issues/52
+  #  see https://github.com/superchordate/easyr/issues/52
   if( file_type == 'pbix' || grepl( '[.]pbix$', filename, ignore.case = T ) ){
       
     # Validate pbi-tools is downloaded.

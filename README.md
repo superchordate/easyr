@@ -1,32 +1,27 @@
 # easyr 
 
-Helpful functions from [Oliver Wyman Actuarial Consulting](https://www.oliverwyman.com/our-expertise/capabilities/actuarial.html).
-
-**easyr makes difficult operations easy.** 
+Helpful functions that make coding in R easier.
 
 ## Installation
 
-You can install the latest version available on CRAN:
+Install the latest version from github:
 
 ```r
-
-install.packages('easyr')
+devtools::install_github( "superchordate/easyr" )
 require(easyr)
-
 ```
 
-Or install the latest version from github:
+There is also a version on CRAN, but it is no longer being maintained as far as I am aware.
 
-```r
+## About Me
 
-devtools::install_github( "oliver-wyman-actuarial/easyr" )
-require(easyr)
+I'm an independent contractor helping companies build custom cloud apps and leverage data science, visual analytics, and AI. I offer low introductory rates, free consultation and estimates, and no minimums, so contact me today and let's chat about how I can help!
 
-```
+https://www.bryce-chamberlain.com/
 
 ## Getting Started
 
-Tutorial: https://www.kaggle.com/brycechamberlain/easyr-tutorial.
+Tutorial: https://colab.research.google.com/drive/1dlBcUoKcktdbDeRX_EL8F2Hr71N51jwV?usp=sharing.
 
 Here is what a project looks like using easyr:
 
@@ -39,18 +34,18 @@ begin()
 
 # read.any reads in your data regardless of format, with powerful typing to get numbers and dates.
 # use ?read.any to see the many options.
-dt = read.any( 'path/to/file.extension' )
+dt = read.any('path/to/file.extension')
 
 # let's look at a data dictionary to understand our data.
-View( dict( dt ) )
+View(atype(dict(dt)))
 
 # begin has already loaded dplyr and magrittr so you are ready to go.
 dt %<>% 
-  filter( !is.na(id) ) %>% 
-  mutate( newcol = oldcol1 + oldcol 2 )
+  filter(!is.na(id)) %>% 
+  mutate(newcol = oldcol1 + oldcol2)
 
 # use w to quickly write to out.csv'.
-w( dt )
+w(dt)
 
 ```
 
@@ -66,8 +61,6 @@ Data:
   * nastrings: common NA character values.
   * states: U.S. State abbreviations
   * cblind: color set built by and optimized for color-blind users.
-
-Built, shared, and managed by Oliver Wyman Actuarial Consulting.
 
 *Now accepting proposed contributions through GitHub!*
 
@@ -98,11 +91,11 @@ It is built on the following tenets:
 
 ## Make A Contribution
 
-Any and all contributions are welcome. The easiest way to contribute is to add an [Issue](https://github.com/oliver-wyman-actuarial/easyr/issues). 
+Any and all contributions are welcome. The easiest way to contribute is to add an [Issue](https://github.com/superchordate/easyr/issues). 
 This can be a bug identified or even an idea you have on how we can improve easyr. Please be detailed and provide examples to make it easy for the community to resolve your issue/idea.
 
 If you would like to make a more material contribution via Pull Request, please consider:
-* The [Issue page](https://github.com/oliver-wyman-actuarial/easyr/issues) page lists open issues that we need your help to resolve.
+* The [Issue page](https://github.com/superchordate/easyr/issues) page lists open issues that we need your help to resolve.
 * `build-install-test.R` is included to let you run tests. Please run this to ensure your changes don't cause tests or examples to fail.
 * `tests/testthat` folder contains tests. Consider adding a test to validate your change and prevent someone else from breaking it in the future.
 * `cmd-code-run-checks.txt` contains command-line scripts you can run to check if your changes will be acceptable to CRAN. If it isn't, it'll require extra work by us before we can submit to CRAN.
@@ -173,6 +166,7 @@ Help with reading and manipulating data.
 | sch | Search a data frame or vector. Attempts to replicate Excel search but with regex. |
 | short_dollars|	Converts numeric plot axis dollars and attaches K and divides by 1000.|
 | short_nums| Shortens axis numbering to thousands or millions and adds.|
+| similar_text | Search for strings that are similar. |
 | sumnum|Summarize all numeric columns in a dataset. |
 | tcol| Transpose operation that sets column names equal to a column in the original data.|
 
@@ -200,3 +194,12 @@ These data resources are also included.
 |nastrings|List of strings considered NA by easyr. Includes blank strings, "NA", excel errors, etc.|
 |states|Helpul dataset of U.S. State abbreviations and names.|
 |cblind|Charting colors optimized for and selected by colorblind individuals.|
+
+
+## Attribution & History
+
+easyr was originally open-sourced by Oliver Wyman Actuarial Consulting under the General Public License (GPL). Huge thanks to Oliver Wyman for supporting this project!
+
+In January 2024 Bryce Chamberlain, who contributed a large portion of the code and maintained the project from inception, parted ways with Oliver Wyman and was not given time to properly transition maintenance responsibilities. 
+
+As far as I am aware, the original easyr project is no longer being maintained either on CRAN or on GitHub. I have started this repository so that I can continue to maintain and improve this important project. 
