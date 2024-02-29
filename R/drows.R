@@ -27,19 +27,19 @@ drows <- function(x, c, na = FALSE) {
 
   # remove NAs.
   if(!na){
-    narows = which(rowSums(is.na(checkdt[, -1])) > 0)  
+    narows = which(rowSums(is.na(checkdt[, -1, drop = FALSE]))  > 0)
     if(length(narows) > 0) checkdt = checkdt[-narows, ]
   }
   
   # get duplicates. 
-  duprows = which(duplicated(checkdt[, -1]))
+  duprows = which(duplicated(checkdt[, -1, drop = FALSE]))
   if(length(duprows) == 0){
     cat('drows: No duplicates found.')
     return()
   }
 
   # return rows with duplicates.
-  collapsed_vals = apply(checkdt[, -1], 1, paste, collapse = '')
+  collapsed_vals = apply(checkdt[, -1, drop = FALSE], 1, paste, collapse = '')
   dvals = which(collapsed_vals %in% collapsed_vals[duprows])
   toreturn = checkdt[dvals, ]
   colnames(toreturn)[1] = 'row'
