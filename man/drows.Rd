@@ -4,12 +4,12 @@
 \alias{drows}
 \title{Get Rows with Duplicates}
 \usage{
-drows(x, c, na = FALSE)
+drows(x, cols, na = FALSE)
 }
 \arguments{
 \item{x}{Data frame.}
 
-\item{c}{Column names as a character.}
+\item{cols}{Column names as a character.}
 
 \item{na}{Consider multiple NAs as duplicates?}
 }
