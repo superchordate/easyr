@@ -39,7 +39,7 @@ runfolder = function(
     
     if( is.local && verbose ) cat( '\t start \t', i, ' \n' )
     
-    start = Sys.time()
+    start = suppressWarnings(Sys.time()) # this may warn about time zone not being set, but this won't change the output.
     
     withCallingHandlers( tryCatch({
       
