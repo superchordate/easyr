@@ -13,15 +13,17 @@
 #'
 #' @examples
 #' # write the cars dataset.
-#' path = paste0( tempdir(), '/out.csv' )
-#' w( cars, path )
+#' path = paste0(tempdir(), '/out.csv')
+#' w(cars, path)
 #' 
 #' # cleanup.
-#' file.remove( path )
-w <- function( x, filename = 'out', row.names = FALSE, na = '' ){
+#' file.remove(path)
+w <- function(x, filename = 'out', row.names = FALSE, na = ''){
   
-  filename <- paste0( gsub( '[.][a-z]+$','', filename, ignore.case = T ), '.csv' ) # force csv file type.
+  # force csv extension.
+  filename <- paste0(gsub( '[.][a-z]+$','', filename, ignore.case = TRUE), '.csv' ) 
   
-  utils::write.csv( x, filename, row.names = row.names, na = na )
+  # use faster fwrite. 
+  data.table::fwrite(x = x, file = filename, row.names = row.names, na = na)
   
 }

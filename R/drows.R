@@ -32,7 +32,7 @@ drows <- function(x, cols, na = FALSE) {
   }
   
   # get duplicates. 
-  duprows = which(duplicated(checkdt[, -1]))
+  duprows = which(duplicated(checkdt[, -1, drop = FALSE]))
   if(length(duprows) == 0){
     cat('drows: No duplicates found.')
     return()
