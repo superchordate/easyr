@@ -7,6 +7,16 @@ test_that("todate works as expected", {
       ),
       lubridate::mdy( '2-28-17', NA, '5-31-17' )
     )
+  
+    # do.excel = FALSE
+    expect_equal( 
+      todate( 
+        c( "ABC Company 2-28-17.csv", "ABC Company Feb 2017 AIG.csv", "ABCCompany_053117.csv" ), 
+        aggressive.extraction = TRUE, ifna = 'return-na', do.month.char = FALSE, verbose = FALSE,
+        do.excel = FALSE 
+      ),
+      lubridate::mdy( '2-28-17', NA, '5-31-17' )
+    )
     
     expect_equal( all(eq(
         todate( c( '20171124', '2017/12/24', NA, '12/24/2017', '5/11/2017 1:51PM' ) ), 

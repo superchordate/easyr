@@ -73,7 +73,7 @@ todate <- function(
     # Try excel date conversion. If we get no new NAs then we are done.
       if( ! do.excel ){
 
-        test.conversion.xl = as.Date( rep( NA, length(test.conversion.xl) ) )
+        test.conversion.xl = as.Date( rep( NA, length(x) ) )
 
       } else {
         
