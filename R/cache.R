@@ -237,6 +237,7 @@ save.cache = function( ... ){
       
       max.cache.loaded <<- easyr.cache.info$max.cache.loaded
       
+      # save data. 
       datalist = list(...)
       names(datalist) = trimws(strsplit(gsub('save.cache\\(([^)]+)\\)', '\\1', cc(deparse(sys.call()))), ",")[[1]])
       datalist$cache.at = cache.at

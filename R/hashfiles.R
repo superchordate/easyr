@@ -25,20 +25,21 @@ hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALS
     } else{
       ifiles = c( i ) 
     }
+    ifiles = ifiles[!grepl('(git|node_modules|venv)/', ifiles)]
     
     if(skiptemp) ifiles = ifiles[!grepl('~[$]', ifiles)]
     
     for( j in ifiles ){
       
       if( !file.exists(j) ){
+        
         if( !skip.missing ) {
           stop( 'easyr::hashfiles File not found: [', j, ']. Error E954 hashfiles' )
         } else if( verbose ) {
           cat( 'easyr::hashfiles File not found: [', j, ']. Error E954 hashfiles \n' )
         }
-      }      
-      
-      if( file.exists(j) ){
+        
+      } else {
 
         if( full.hash ){
 
