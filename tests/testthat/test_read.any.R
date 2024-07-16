@@ -1,7 +1,7 @@
 test_that( "NAs are replaced properly", {
   
   # do NAs read as expected?
-  t = read.any( test_file( 'na-check.csv' ), drop.na.cols = FALSE )
+  t = read.any( test_file_( 'na-check.csv' ), drop.na.cols = FALSE )
   expect_equal( sum( is.na( t$val ) ), sum( t$isna ) )
                 
 })
@@ -9,7 +9,7 @@ test_that( "NAs are replaced properly", {
 test_that( "Null columns are dropped", {
   
   expect_equal(
-    ncol( read.any( test_file( 'null-columns.xlsx' ), first_column_name = 'Period End' ) ),
+    ncol( read.any( test_file_( 'null-columns.xlsx' ), first_column_name = 'Period End' ) ),
     3
   )
   
@@ -18,7 +18,7 @@ test_that( "Null columns are dropped", {
 test_that( "Mixed excel-number and string dates convert correclty", {
   
   expect_equal(
-    read.any( test_file( 'mix-dateformat-xl-char.rds' ) )$Repair.Date,
+    read.any( test_file_( 'mix-dateformat-xl-char.rds' ) )$Repair.Date,
     lubridate::mdy( '8/29/2017', '12/20/2016', '8/28/2017', '8/25/2017', '8/28/2017', '1/6/2014', '1/3/2014', '1/23/2014', '12/6/2013', '1/13/2014' )
   )
   
@@ -27,7 +27,7 @@ test_that( "Mixed excel-number and string dates convert correclty", {
 test_that( 'require_columns works properly', {
   
   expect_error( 
-    read.any( test_file( 'mix-dateformat-xl-char.rds' ), require_columns = 'this is not a column' ),
+    read.any( test_file_( 'mix-dateformat-xl-char.rds' ), require_columns = 'this is not a column' ),
     'this is not a column'
   )
   
@@ -36,7 +36,7 @@ test_that( 'require_columns works properly', {
 test_that( 'file with 0 rows reads properly', {
   
   expect_equal( 
-    nrow( read.any( test_file( 'zero-rows.csv' ) ) ),
+    nrow( read.any( test_file_( 'zero-rows.csv' ) ) ),
     0
   )
   
@@ -44,7 +44,7 @@ test_that( 'file with 0 rows reads properly', {
 
 test_that( 'Headers found using field_name_map, read column to row names', {
   
-  t = read.any( test_file( 'sim-data.csv' ), field_name_map = c( 'Claim Number' = 'id' ), row.names.column = 'id' )
+  t = read.any( test_file_( 'sim-data.csv' ), field_name_map = c( 'Claim Number' = 'id' ), row.names.column = 'id' )
   
   # Find columns from field_name_map
   expect_equal( 
@@ -61,7 +61,7 @@ test_that( 'Headers found using field_name_map, read column to row names', {
 
 test_that( 'Single-column data reads properly', {
   expect_equal(
-    colnames( read.any( test_file( 'one-column-test.csv' ) ) ),
+    colnames( read.any( test_file_( 'one-column-test.csv' ) ) ),
     'data' 
   )
   
@@ -70,7 +70,7 @@ test_that( 'Single-column data reads properly', {
 test_that( 'stringsAsFactors works properly', {
   
   expect_equal(
-    class( read.any( test_file( 'sim-data.csv' ), first_column_name = 'Claim Number', stringsAsFactors = TRUE )$status ),
+    class( read.any( test_file_( 'sim-data.csv' ), first_column_name = 'Claim Number', stringsAsFactors = TRUE )$status ),
     'factor'
   )
     
@@ -79,7 +79,7 @@ test_that( 'stringsAsFactors works properly', {
 test_that( 'read HTML saved as XLS', {
   
   expect_equal( 
-    read.any( test_file( 'html-as-xls.xls' ), header = FALSE, verbose = FALSE )$V1[1],
+    read.any( test_file_( 'html-as-xls.xls' ), header = FALSE, verbose = FALSE )$V1[1],
     'value1'
   )
   
@@ -87,7 +87,7 @@ test_that( 'read HTML saved as XLS', {
 
 test_that( 'data types are correctly identified and converted', {
   
-  t = read.any( test_file( 'sim-data.csv' ), first_column_name = 'Claim Number' )
+  t = read.any( test_file_( 'sim-data.csv' ), first_column_name = 'Claim Number' )
   
   expect_equal( 
     sapply( t, class ),
@@ -106,7 +106,7 @@ test_that( 'data types are correctly identified and converted', {
 test_that( 'times read in properly', {
   
   expect_equal(
-    sapply( read.any( test_file( 'date-time.csv' ), allow_times = TRUE ), class )[1,],
+    sapply( read.any( test_file_( 'date-time.csv' ), allow_times = TRUE ), class )[1,],
     c( 'date' = 'POSIXct', 'time' = 'POSIXct' )
   )
   
@@ -116,7 +116,7 @@ test_that( 'times read in properly', {
 #    
 #    if('pdftools' %in% utils::installed.packages()){
 #      
-#      t = read.any( test_file( 'test.pdf' ) )
+#      t = read.any( test_file_( 'test.pdf' ) )
 #
 #      expect_equal(
 #        t,
@@ -134,13 +134,13 @@ test_that( 'times read in properly', {
 
 test_that( 'read file with a row missing a column', { 
   # in the past, fread warnings have resulted in errors instead of warnings.   
-  expect_warning( { t = read.any(test_file( 'row-missing-column.csv' )) }, regexp = 'Warning during read of' )
+  expect_warning( { t = read.any(test_file_( 'row-missing-column.csv' )) }, regexp = 'Warning during read of' )
 })
 
 test_that( 'read Power BI', { 
 
   # this is returning a warning about fread not being cleaned up (due to warning handling in prior test), so run a clean fread to remove it.
-  suppressWarnings(read.any(test_file('date-time.csv')))
+  suppressWarnings(read.any(test_file_('date-time.csv')))
 
   # Validate pbi-tools is downloaded.
   if (exists('shell') && shell('pbi-tools info') == 0){ # shell does not exist on noLD.
@@ -176,17 +176,17 @@ test_that( 'read fixed-width file', {
   if('readxlsb' %in% utils::installed.packages()){ 
 
     expect_equal( 
-      nrow(read.any( test_file( 'sample.xlsb' ))),
+      nrow(read.any( test_file_( 'sample.xlsb' ))),
       14
     )
 
     expect_equal( 
-      nrow(read.any( test_file( 'sample.xlsb' ), sheet = 1)),
+      nrow(read.any( test_file_( 'sample.xlsb' ), sheet = 1)),
       14
     )
 
     expect_equal( 
-      nrow(read.any( test_file( 'sample.xlsb' ), sheet = 2)),
+      nrow(read.any( test_file_( 'sample.xlsb' ), sheet = 2)),
       14
     )
 

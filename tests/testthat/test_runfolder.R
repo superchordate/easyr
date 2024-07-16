@@ -1,10 +1,10 @@
 test_that("works as expected", {
 
-  t = capture.output( runfolder( test_file('') ) )
+  t = capture.output( runfolder( test_file_('') ) )
   expect_true( cc( t, sep = '' ) != '' )
 
   # test edit.on.err
-  t = capture.output( runfolder( test_file(''), edit.on.err = FALSE ) )
+  t = capture.output( runfolder( test_file_(''), edit.on.err = FALSE ) )
   expect_true( cc( t, sep = '' ) != '' )
   
   expect_error(

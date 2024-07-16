@@ -47,7 +47,7 @@ hashfiles = function(x, skip.missing = FALSE, full.hash = FALSE, verbose = FALSE
     
   }
   
-  hash.out = digest::digest(hash.out, algo = "crc32", serialize = FALSE)
+  hash.out = digest::digest(paste0(hash.out, collapse = ''), algo = "crc32", serialize = FALSE)
   
   return( hash.out )
   
