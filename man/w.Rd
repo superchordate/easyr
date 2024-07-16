@@ -16,8 +16,8 @@ w(x, filename = "out", row.names = FALSE, na = "")
 \item{na}{(Optional) String to print for NAs. Defaults to an empty/blank string.}
 }
 \description{
-Improved write function. Writes to csv without row names and automatically adds .csv to the file name if it isn't there already. Changes to .csv if another extension is passed.
-Easier to type than write.csv(row.names=F).
+Improved write function. Writes to csv or excel without row names and automatically adds .csv to the file name if it isn't there already. Changes to .csv if a non-xlsx extension is passed.
+Easier to type than write.csv(row.names=F) or write.excel().
 Author: Bryce Chamberlain. Tech reveiw: Maria Gonzalez.
 }
 \examples{

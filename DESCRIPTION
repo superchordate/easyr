@@ -27,6 +27,7 @@ Imports:
     Hmisc,
     lubridate,
     methods,
+    openxlsx,
     readxl,
     rlang,
     rprojroot,
