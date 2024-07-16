@@ -1,11 +1,11 @@
 test_that("without buffer", {
 
   # data frame.
-  ecopy( iris, showrowcolnames = "cols", show = 'show' )
-  ecopy( iris )
+  ecopy(iris, showrowcolnames = "cols", show = 'show')
+  ecopy(iris)
 
   # string.
-  ecopy( 'hello' )
+  ecopy('hello')
    
   # reading from the clipboard is not always possible.
   result = tryCatch({

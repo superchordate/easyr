@@ -45,11 +45,7 @@ ecopy <- function(
 
     # otherwise, write to text.
     } else {
-
-      # see https://stackoverflow.com/questions/17140424/placing-a-string-on-the-clipboard-without-a-newline
-      # needs an extra character which gets removed.
-      utils::writeClipboard( charToRaw( paste0( x, ' ' ) ) )
-
+      utils::writeClipboard(paste0(x))
     }
   
   # Return the data if 'show'.
