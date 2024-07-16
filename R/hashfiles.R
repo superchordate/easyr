@@ -14,82 +14,64 @@
 #' @examples
 #' folder = system.file('extdata', package = 'easyr')
 #' hashfiles(folder)
-hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALSE, skiptemp = TRUE ){
+hashfiles = function(x, skip.missing = FALSE, full.hash = FALSE, verbose = FALSE, skiptemp = TRUE){
   
-  hash.out = ''
+  hash.out = NULL
   
-  for( i in x ){
+  for(i in x){
     
-    if( dir.exists(i) ){
-      ifiles = list.files( i, full.names = TRUE, recursive = TRUE )
+    if(dir.exists(i)){
+      ifiles = list.files(i, full.names = TRUE, recursive = TRUE)
     } else{
-      ifiles = c( i ) 
+      ifiles = i
     }
-    ifiles = ifiles[!grepl('(git|node_modules|venv)/', ifiles)]
     
+    ifiles = ifiles[!grepl('(git|node_modules|venv)/', ifiles)]
     if(skiptemp) ifiles = ifiles[!grepl('~[$]', ifiles)]
     
-    for( j in ifiles ){
-      
-      if( !file.exists(j) ){
-        
-        if( !skip.missing ) {
-          stop( 'easyr::hashfiles File not found: [', j, ']. Error E954 hashfiles' )
-        } else if( verbose ) {
-          cat( 'easyr::hashfiles File not found: [', j, ']. Error E954 hashfiles \n' )
-        }
-        
-      } else {
+    if(verbose) print(glue::glue('easyr::hashfiles: hashing [{fmat(length(ifiles), ",")}] files from [{i}].'))
 
-        if( full.hash ){
-
-          jdigest = fulldigest(j)
-          
-        } else {
-          
-          # get file info and hash it. atime is the current time so remove that, it'll always change.
-          jinfo = base::file.info(j)
-
-          # if the file is less than 100 KB then get the full hash.
-          if(jinfo$size < 1024 * 100){
-            jdigest = fulldigest(j)
-          } else {
-            jdigest = digest::digest( c( rownames(jinfo), jinfo$size ), algo = "xxhash64" )
-          }         
-          
-          rm(jinfo)
-          
-        }
-        
-        # add to the running hash.
-        hash.out = digest::digest( cc( hash.out, jdigest ), algo = "md5", serialize = FALSE )[1]
-        
-        rm( jdigest )
-      
-      }
-      
-      rm(j)
-      
+    # parallel is slower for only a few files. 
+    if(length(ifiles) > 50){
+      cl = parallel::makeCluster(parallel::detectCores() - 1)
+      parallel::clusterEvalQ(cl, require(digest))
+      file_hashes = unlist(parallel::parLapply(cl, ifiles, hashfile, skip.missing = skip.missing, full.hash = full.hash))
+      parallel::stopCluster(cl)
+      rm(cl)
+    } else {
+      file_hashes = unlist(lapply(ifiles, hashfile, skip.missing = skip.missing, full.hash = full.hash))
     }
     
+    # add to the running hash.
+    hash.out = c(sort(file_hashes), hash.out) # parallel might re-sort things.
+    
   }
+  
+  hash.out = digest::digest(hash.out, algo = "crc32", serialize = FALSE)
   
   return( hash.out )
   
 }
 
-fulldigest = function(path){
-            
-  # Try a standard digest.
-  result = tryCatch({ digest::digest( file = path, algo = "xxhash64" ) }, error = function(e) return(NULL) )
+hashfile = function(path, skip.missing, full.hash){
   
-  # If that doesn't work, try reading and digesting.
-  if( is.null(result) ) result = tryCatch({ digest::digest( readChar(path, file.info(path)$size), algo = "xxhash64" ) }, error = function(e) return(NULL) )
-  if( is.null(result) ) result = tryCatch({ digest::digest( read.any(filename = path), algo = "xxhash64" ) }, error = function(e) return(NULL) )
-  
-  if( is.null(result) ) stop( glue::glue( "Error at digest::digest for [{path}] Error E1140 hashfiles" ) )
+  if(!file.exists(path)){
+    if(!skip.missing){
+      stop(glue::glue('easyr::hashfiles File not found: [{path}]. Error E954 hashfiles'))
+    } else {
+      return(NULL)
+    }
+  }
 
-  return(result)
+  info = file.info(path)
+  if(full.hash){
+    data = readBin(path, what = "raw", n = info$size)
+    result = digest::digest(data, algo = "crc32")
+    # if(is.null(result)) stop( glue::glue( "Error at digest::digest for [{path}] Error E1140 hashfiles"))
+    return(result)
+  } else {
+    return(digest::digest(c(info$mtime, info$size), algo = "crc32"))
+  }
 
 }
 

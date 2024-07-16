@@ -32,7 +32,8 @@ Imports:
     rprojroot,
     stats,
     stringr,    
-    XML
+    XML,
+    parallel
 RoxygenNote: 7.1.1
 Suggests: 
     gdata,
