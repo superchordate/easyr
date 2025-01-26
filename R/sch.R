@@ -64,7 +64,7 @@ sch = function( x, pattern, ignore.case = FALSE, fixed = FALSE, pluscols = NULL,
 
     # convert pluscols to numeric, it'll be easier to work with.
     if(!is.null(pluscols)){
-      if(pluscols=='all'){
+      if(all(pluscols == 'all')){
         pluscols = 1:ncol(x)
       } else {
         validatecolnames(x, pluscols)
