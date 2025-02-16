@@ -17,7 +17,7 @@ There is also a version on CRAN, but it is no longer being maintained as far as 
 
 I'm an independent contractor helping companies build custom cloud apps and leverage data science, visual analytics, and AI. I offer low introductory rates, free consultation and estimates, and no minimums, so contact me today and let's chat about how I can help!
 
-https://www.brycechamberlainllc.com
+https://www.techbybryce.com
 
 ## Getting Started
 
