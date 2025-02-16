@@ -2,6 +2,14 @@
 
 Helpful functions that make coding in R easier.
 
+*This project was copied from https://github.com/oliver-wyman-actuarial/easy, an R package I developed and open-sourced while at Oliver Wyman. I've copied it here so I can maintain and expand it independently.*
+
+## About Me
+
+I'm an independent contractor helping companies build custom cloud apps and leverage data science, visual analytics, and AI. I offer low introductory rates, free consultation and estimates, and no minimums, so contact me today and let's chat about how I can help!
+
+https://www.techbybryce.com
+
 ## Installation
 
 Install the latest version from github:
@@ -12,12 +20,6 @@ require(easyr)
 ```
 
 There is also a version on CRAN, but it is no longer being maintained as far as I am aware.
-
-## About Me
-
-I'm an independent contractor helping companies build custom cloud apps and leverage data science, visual analytics, and AI. I offer low introductory rates, free consultation and estimates, and no minimums, so contact me today and let's chat about how I can help!
-
-https://www.techbybryce.com
 
 ## Getting Started
 
